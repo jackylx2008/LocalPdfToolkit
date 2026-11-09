@@ -1,0 +1,12 @@
+app:
+  host: 127.0.0.1
+  port: 8765
+  log_level: INFO
+
+bluebeam:
+  executable_path: "${BLUEBEAM_REVU_PATH:-}"
+  script_engine_path: "${BLUEBEAM_SCRIPT_ENGINE_PATH:-}"
+
+paths:
+  output_dir: output
+  cache_dir: cache
