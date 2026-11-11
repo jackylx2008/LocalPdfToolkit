@@ -8,3 +8,7 @@ output/
 cache/
 .pytest_cache/
 .ruff_cache/
+test/
+test_data/
+input/
+docs/

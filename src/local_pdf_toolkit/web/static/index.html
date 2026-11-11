@@ -8,36 +8,286 @@
   <style>
     :root{font-family:"Segoe UI","Microsoft YaHei",sans-serif;color:#183333;background:#f7f5ef;font-synthesis:none}
     *{box-sizing:border-box}body{margin:0}header{padding:28px clamp(20px,6vw,88px);display:flex;justify-content:space-between;align-items:center;background:#fff;border-bottom:1px solid #e5e8e2}
-    .brand{font-size:14px;font-weight:700;letter-spacing:.08em}.status{font-size:12px;color:#526662}.status:before{content:"";display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:#087b70}
+    .brand{font-size:14px;font-weight:700;letter-spacing:.08em}.header-tools{display:flex;align-items:center;gap:22px}.status{font-size:12px;color:#526662;white-space:nowrap}.status:before{content:"";display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:#087b70}.backend-control{display:flex;align-items:center;gap:9px;font-size:12px;color:#526662;white-space:nowrap}.backend-name{font-weight:700;color:#183333}.backend-state{min-width:48px}.toggle{position:relative;display:inline-flex;width:38px;height:22px;align-items:center}.toggle input{width:1px;height:1px;opacity:0;position:absolute}.toggle-track{position:absolute;inset:0;border-radius:14px;background:#aab4b0;cursor:pointer;transition:background .16s}.toggle-track:before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .16s}.toggle input:checked+.toggle-track{background:#087b70}.toggle input:checked+.toggle-track:before{transform:translateX(16px)}.toggle input:focus-visible+.toggle-track{outline:3px solid #087b7044;outline-offset:2px}.toggle input:disabled+.toggle-track{background:#d7dcda;cursor:not-allowed}.toggle input:disabled+.toggle-track:before{background:#f3f4f3}.backend-control.unavailable{color:#9aa29f}.backend-control.unavailable .backend-name{color:#9aa29f}
     main{max-width:1180px;margin:0 auto;padding:clamp(36px,7vw,90px) 24px}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;color:#087b70;text-transform:uppercase}
     h1{font-size:clamp(38px,6vw,61px);line-height:1.12;letter-spacing:-.04em;margin:18px 0 14px;max-width:800px}h1 span{color:#087b70}.intro{color:#526662;line-height:1.8;max-width:720px;font-size:15px}
     .section-head{display:flex;justify-content:space-between;align-items:end;margin:54px 0 18px}.section-head h2{font-size:20px;margin:0}.section-head p{color:#788580;font-size:12px;margin:0}
-    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{background:#fff;border:1px solid #e4e8e2;border-radius:16px;padding:23px;min-height:178px;box-shadow:0 8px 24px #18333308}.card .tag{font-size:10px;color:#087b70;letter-spacing:.12em;font-weight:700}.card h3{font-size:19px;margin:15px 0 8px}.card p{font-size:13px;color:#63726d;line-height:1.7;margin:0}.card.disabled{opacity:.65}.soon{display:inline-block;margin-top:15px;padding:5px 9px;border-radius:20px;background:#f3f1ea;color:#767d76;font-size:10px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{appearance:none;text-align:left;font:inherit;color:inherit;width:100%;background:#fff;border:1px solid #e4e8e2;border-radius:16px;padding:23px;min-height:178px;box-shadow:0 8px 24px #18333308;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}.card:hover,.card:focus-visible{transform:translateY(-2px);border-color:#087b70;box-shadow:0 12px 28px #18333312;outline:none}.card .tag{font-size:10px;color:#087b70;letter-spacing:.12em;font-weight:700}.card h3{font-size:19px;margin:15px 0 8px}.card p{font-size:13px;color:#63726d;line-height:1.7;margin:0}.soon{display:inline-block;margin-top:15px;padding:5px 9px;border-radius:20px;background:#f3f1ea;color:#767d76;font-size:10px}
     .notice{margin-top:28px;padding:15px 18px;border-left:3px solid #e6a943;background:#fffaf0;color:#526662;font-size:12px;line-height:1.7}.foot{margin-top:54px;color:#89928d;font-size:11px}
     @media(max-width:780px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.section-head{display:block}.section-head p{margin-top:8px}}
+    @media(max-width:620px){header{align-items:flex-start;gap:14px;flex-direction:column}.header-tools{width:100%;justify-content:space-between;gap:10px}.status{font-size:11px}}
     @media(max-width:520px){header{padding:20px}.grid{grid-template-columns:1fr}.card{min-height:0}main{padding-top:42px}}
+    dialog{width:min(520px,calc(100% - 32px));border:1px solid #e4e8e2;border-radius:18px;padding:26px;color:#183333;box-shadow:0 24px 80px #18333330}dialog::backdrop{background:#10242266;backdrop-filter:blur(3px)}dialog h2{font-size:24px;margin:10px 0}dialog p{font-size:14px;line-height:1.8;color:#526662}.dialog-status{padding:12px 14px;border-radius:10px;background:#fff7e8;color:#795b26;font-size:12px;line-height:1.7;margin:18px 0}.dialog-actions{display:flex;justify-content:flex-end}.dialog-actions button{border:0;border-radius:8px;background:#087b70;color:#fff;padding:10px 16px;font-weight:700;cursor:pointer}
+    #pdf-info-form{margin:20px 0}#pdf-info-form>label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}#pdf-info-file{display:block;max-width:100%;font-size:12px}fieldset{border:1px solid #e4e8e2;border-radius:10px;margin:18px 0;padding:12px;display:flex;gap:18px;flex-wrap:wrap}legend{font-size:12px;color:#526662;padding:0 5px}fieldset label{font-size:12px}#pdf-info-result{font-size:13px;line-height:1.7;margin-top:14px;color:#526662}#pdf-info-result a{display:inline-block;color:#087b70;font-weight:700;margin:3px 0}#pdf-info-submit:disabled{opacity:.6;cursor:wait}
   </style>
 </head>
 <body>
-  <header><div class="brand">LOCAL PDF TOOLKIT</div><div class="status" id="service-status" role="status">正在连接本机服务</div></header>
+  <header><div class="brand">LOCAL PDF TOOLKIT</div><div class="header-tools"><div class="backend-control" id="backend-control"><span class="backend-name">Bluebeam</span><label class="toggle" title="切换 Bluebeam 处理后端"><input id="bluebeam-toggle" type="checkbox" aria-label="启用或不启用 Bluebeam" disabled><span class="toggle-track"></span></label><span class="backend-state" id="bluebeam-state">检查中</span></div><div class="status" id="service-status" role="status">正在连接本机服务</div></div></header>
   <main>
     <div class="eyebrow">PDF WORKSPACE · LOCAL ONLY</div>
     <h1>PDF 工作，从这里<span>开始</span>。</h1>
-    <p class="intro">选择处理工具，在同一个工作台中配置输入、查看运行状态并检查结果。PDF 页面修改与输出由本机 Bluebeam Revu 执行。</p>
+    <p class="intro">选择处理工具，在同一个工作台中配置输入、查看运行状态并检查结果。启动时自动选择本机 Bluebeam Revu 或 Python PDF 后端。</p>
     <div class="section-head"><h2>工具与工作流</h2><p>首版功能正在整合，入口会按工作流逐步开放。</p></div>
     <section class="grid" aria-label="PDF 工具列表">
-      <article class="card disabled"><div class="tag">ANNOTATE · LAYOUT</div><h3>关键词标注与 A3 拆图</h3><p>从关键词文件读取内容，标记 PDF 命中位置；识别图框并拆分为 A3 页面。</p><span class="soon">待接入：PdfTextMarker</span></article>
-      <article class="card disabled"><div class="tag">DRAWING · MARKUPS</div><h3>图纸批注复制</h3><p>按楼层匹配图纸，配准底图并迁移可编辑的区域和文字批注。</p><span class="soon">待接入：CopyPdfPline</span></article>
-      <article class="card disabled"><div class="tag">OCR · VERIFY</div><h3>OCR 与文件核对</h3><p>识别扫描 PDF 内容，拆页、重命名，并核对文件名与资料编号。</p><span class="soon">待接入：PDFPageReplacer / GetPdfText</span></article>
-      <article class="card disabled"><div class="tag">EXTRACT · ANALYZE</div><h3>PDF 元素提取</h3><p>提取矢量文本、线条和矩形，导出结构化数据并分析元素关系。</p><span class="soon">待接入：GetPdfInfo</span></article>
-      <article class="card disabled"><div class="tag">SEARCH · SCREENSHOT</div><h3>位置搜索与截图</h3><p>按关键词定位页面内容，生成全页或局部截图，支持缓存和相似项统计。</p><span class="soon">待接入：GetLocInPdf</span></article>
-      <article class="card disabled"><div class="tag">MORE PDF FLOWS</div><h3>更多 PDF 工具</h3><p>整合印章、图像转 PDF 等其他项目中的 PDF 工作流。</p><span class="soon">待盘点：PdfStamp / Frame2Pdf 等</span></article>
+      <button class="card" type="button" data-title="关键词标注与 A3 拆图" data-source="PdfTextMarker" data-description="在带文字层的 PDF 中搜索关键词，Bluebeam 模式生成可导入的 FDF，Python 模式直接生成带高亮的 PDF 和命中报告。AI 图框识别与 A3 拆分在本地 AI 服务设置完成后接入。"><div class="tag">ANNOTATE · LAYOUT</div><h3>关键词标注与 A3 拆图</h3><p>定位关键词并生成标注 PDF；AI 图框识别及 A3 拆分待本地 AI 配置。</p><span class="soon">关键词标注已接入 · AI 拆图待配置</span></button>
+      <button class="card" type="button" data-title="图纸批注复制" data-source="CopyPdfPline" data-description="对源图与目标图进行 SIFT/RANSAC 配准，将 Polygon、Polyline 和 MM/RC 标签映射到目标图。Bluebeam 模式输出 FDF，Python 模式直接保存带迁移批注的 PDF。首版使用单页文件对。"><div class="tag">DRAWING · MARKUPS</div><h3>图纸批注复制</h3><p>配准源图与目标图，迁移区域、折线和 MM/RC 文字批注。</p><span class="soon">单页配准与批注迁移已接入</span></button>
+      <button class="card" type="button" data-title="OCR 与文件核对" data-source="PDFPageReplacer / GetPdfText" data-description="已接入单 PDF OCR、逐页文本导出、正则编号核对、批量页数校核和单对 PDF 前页替换；批量 OCR、AI 最终判定、PDF 拆页、重命名及文件筛选复制仍在迁移。"><div class="tag">OCR · VERIFY</div><h3>OCR 与文件核对</h3><p>识别 PDF 内容、核对文件名编号，校核页数并替换附图 PDF 首页。</p><span class="soon">OCR、编号、页数校核、首页替换已接入 · 其它流程待迁移</span></button>
+      <button class="card" type="button" data-title="PDF 元素提取" data-source="GetPdfInfo" data-description="提取矢量 PDF 的字符、线条、矩形、坐标、字体和颜色，并生成 CSV；支持空间关系和颜色分组分析。"><div class="tag">EXTRACT · ANALYZE</div><h3>PDF 元素提取</h3><p>提取矢量文本、线条和矩形，导出结构化数据并分析元素关系。</p><span class="soon">已接入</span></button>
+      <button class="card" type="button" data-title="位置搜索与截图" data-source="GetLocInPdf" data-description="按关键词定位 PDF 页面内容，生成全页或区域截图，包含矢量边框识别和缓存。"><div class="tag">SEARCH · SCREENSHOT</div><h3>位置搜索与截图</h3><p>按关键词定位页面内容，生成全页或局部截图，支持缓存和边框标注。</p><span class="soon">已接入</span></button>
+      <button class="card" type="button" data-title="编号变更盖章" data-source="PdfStamp" data-description="读取旧编号到新编号映射，为匹配 PDF 首页生成红色文字标注。Bluebeam 模式生成 FDF，Python 模式直接输出盖章 PDF。"><div class="tag">STAMP · NUMBER MAP</div><h3>编号变更盖章</h3><p>按 CSV/XLSX 映射表生成首页旧编号、新编号批注。</p><span class="soon">编号映射与标注已接入</span></button>
+      <button class="card" type="button" data-title="图片整理为 PDF" data-source="Frame2Pdf" data-description="按文件名整理 JPEG、纠正 EXIF 方向、选择 A3/A4 页面并居中排版，再由当前 PDF 后端生成多页 PDF。"><div class="tag">IMAGES · PAGE LAYOUT</div><h3>图片整理为 PDF</h3><p>照片旋正、A3/A4 页面排版和多页 PDF 创建都由本机工作流完成。</p><span class="soon">Bluebeam / Python PDF 输出已接入</span></button>
+      <button class="card" type="button" data-title="更多 PDF 工具" data-source="PDF 项目盘点" data-description="已盘点 CopyPdfDesktop、LocalAiOcrFile、CopyZipDesktop、CheckDesignChange、Financial_Track、RoomParser、MepDiagramParser 等项目中的 PDF 相关流程。"><div class="tag">MORE PDF FLOWS</div><h3>其他项目功能</h3><p>已核对邻近项目中的 PDF 功能、输入输出与重叠关系。</p><span class="soon">盘点完成 · 纳入建议见文档</span></button>
     </section>
     <div class="notice">本机工作台仅监听回环网络地址。当前页面用于确认统一入口与功能分组；工具接入后，将在对应工作区提供参数、文件选择、进度、结果和必要的覆盖确认。</div>
-    <div class="foot">LOCAL ONLY · Bluebeam Revu eXtreme</div>
+    <div class="foot">LOCAL ONLY · Bluebeam Revu / Python PDF</div>
   </main>
+  <dialog id="tool-dialog" aria-labelledby="dialog-title">
+    <div class="eyebrow" id="dialog-source"></div><h2 id="dialog-title"></h2><p id="dialog-description"></p>
+    <div class="dialog-status" id="dialog-status">该工作流尚未迁移到统一工作台，因此目前不能提交 PDF 处理任务。此卡片可打开功能说明；实际处理功能仍在整合中。</div>
+    <form id="pdf-info-form" hidden>
+      <label for="pdf-info-file">选择矢量 PDF 文件</label><input id="pdf-info-file" name="pdf" type="file" accept="application/pdf,.pdf" required>
+      <fieldset><legend>要提取的元素</legend>
+        <label><input type="checkbox" name="text" value="1" checked> 文字字符</label>
+        <label><input type="checkbox" name="lines" value="1" checked> 线条</label>
+        <label><input type="checkbox" name="rects" value="1" checked> 矩形</label>
+      </fieldset>
+      <fieldset><legend>关联分析（可选）</legend>
+        <label><input type="checkbox" name="spatial" value="1"> 空间关系</label>
+        <label><input type="checkbox" name="color" value="1"> 颜色分组</label>
+        <label>最大邻近距离（PDF 点）<input type="number" name="max_distance" value="100" min="0" step="1"></label>
+      </fieldset>
+      <div class="dialog-actions"><button type="submit" id="pdf-info-submit">提取并生成 CSV</button></div>
+      <div id="pdf-info-result" role="status" aria-live="polite"></div>
+    </form>
+    <form id="pdf-marker-form" hidden>
+      <h3>关键词定位与 PDF 标注</h3>
+      <label>带文字层的 PDF<input name="pdf" type="file" accept="application/pdf,.pdf" required></label>
+      <label>关键词（每行一个）<textarea name="keywords" rows="5" required placeholder="例如：设备编号、房间名称"></textarea></label>
+      <p>Bluebeam 后端生成 FDF 与坐标 CSV；Python 后端直接提供带高亮的 PDF 与坐标 CSV。</p>
+      <div class="dialog-actions"><button type="submit" id="pdf-marker-submit">搜索并生成标注</button></div>
+      <div id="pdf-marker-result" role="status" aria-live="polite"></div>
+    </form>
+    <form id="copy-markups-form" hidden>
+      <h3>源图批注到目标图</h3>
+      <label>含批注的单页源 PDF<input name="source" type="file" accept="application/pdf,.pdf" required></label>
+      <label>单页目标 PDF<input name="target" type="file" accept="application/pdf,.pdf" required></label>
+      <p>系统使用 SIFT/RANSAC 校核两张底图的相似度和配准质量。Bluebeam 后端提供 FDF，Python 后端直接保存迁移后的目标 PDF。</p>
+      <div class="dialog-actions"><button type="submit" id="copy-markups-submit">配准并生成标注</button></div>
+      <div id="copy-markups-result" role="status" aria-live="polite"></div>
+    </form>
+    <form id="pdf-stamp-form" hidden>
+      <h3>PDF 编号变更标注</h3>
+      <label>PDF 文件（可多选）<input name="pdfs" type="file" accept="application/pdf,.pdf" multiple required></label>
+      <label>旧编号/新编号映射（CSV 或 XLSX）<input name="mapping" type="file" accept=".csv,.xlsx" required></label>
+      <p>Bluebeam 后端的 ZIP 内含 FDF 与匹配报告；Python 后端的 ZIP 内含已盖章 PDF 与匹配报告。</p>
+      <div class="dialog-actions"><button type="submit" id="pdf-stamp-submit">生成编号标注</button></div>
+      <div id="pdf-stamp-result" role="status" aria-live="polite"></div>
+    </form>
+    <form id="frame-to-pdf-form" hidden>
+      <h3>照片整理与 PDF 输出</h3>
+      <label>选择一个 JPEG 图片目录<input name="images" type="file" accept="image/jpeg,.jpg,.jpeg" webkitdirectory directory multiple required></label>
+      <label>输出 PDF 文件名<input name="output_name" type="text" value="合同扫描件" required></label>
+      <p>按文件名排序；纠正 EXIF 方向，按原项目阈值排版为 A3/A4 600 DPI 页面，再由当前 PDF 后端合并图片并生成 PDF。</p>
+      <div class="dialog-actions"><button type="submit" id="frame-to-pdf-submit">处理并生成 PDF</button></div>
+      <div id="frame-to-pdf-result" role="status" aria-live="polite"></div>
+    </form>
+    <form id="pdf-ocr-form" hidden>
+      <h3>扫描 PDF OCR</h3>
+      <label for="pdf-ocr-file">选择扫描 PDF 文件</label><input id="pdf-ocr-file" name="pdf" type="file" accept="application/pdf,.pdf" required>
+      <label>起始页 <input name="start_page" type="number" value="1" min="1"></label>
+      <label>渲染 DPI <input name="dpi" type="number" value="220" min="72" max="400"></label>
+      <label>可选：编号正则 <input name="pattern" type="text" placeholder="例如 05-03-C2-\\d{3}"></label>
+      <div class="dialog-actions"><button type="submit" id="pdf-ocr-submit">开始 OCR</button></div>
+      <div id="pdf-ocr-result" role="status" aria-live="polite"></div>
+    </form>
+    <form id="replace-pages-form" hidden>
+      <h3>替换附图 PDF 的首页</h3>
+      <label>内容/面单 PDF<input name="content" type="file" accept="application/pdf,.pdf" required></label>
+      <label>附图 PDF（保留首页之后的页面）<input name="attached" type="file" accept="application/pdf,.pdf" required></label>
+      <p>按来源项目规则，用内容 PDF 与附图 PDF 重叠的前 N 页替换附图 PDF；输出保留附图 PDF 的总页数。</p>
+      <div class="dialog-actions"><button type="submit" id="replace-pages-submit">替换页面</button></div>
+      <div id="replace-pages-result" role="status" aria-live="polite"></div>
+    </form>
+    <form id="page-count-form" hidden>
+      <h3>批量页数校核</h3>
+      <p>按源文件名匹配目标 PDF：目标文件名须以源文件名（不含扩展名）开头，且每个源文件只能匹配一个目标文件。</p>
+      <label>源 PDF（可多选）<input name="sources" type="file" accept="application/pdf,.pdf" multiple required></label>
+      <label>目标 PDF（可多选）<input name="targets" type="file" accept="application/pdf,.pdf" multiple required></label>
+      <div class="dialog-actions"><button type="submit" id="page-count-submit">校核页数</button></div>
+      <div id="page-count-result" role="status" aria-live="polite"></div>
+    </form>
+    <form id="pdf-location-form" hidden>
+      <h3>PDF 位置搜索与截图</h3>
+      <label>PDF 文件<input name="pdf" type="file" accept="application/pdf,.pdf" required></label>
+      <label>搜索关键词（每行一个）<textarea name="keywords" rows="4" required placeholder="每个关键词单独一行"></textarea></label>
+      <label>截图模式<select name="mode" id="location-mode"><option value="full_page">全页截图</option><option value="region">指定区域截图</option></select></label>
+      <div id="location-region" hidden><p>区域坐标以 PDF 页面左上角为原点，单位为 PDF 点。</p><label>x0 <input name="x0" type="number" step="1"></label><label>y0 <input name="y0" type="number" step="1"></label><label>x1 <input name="x1" type="number" step="1"></label><label>y1 <input name="y1" type="number" step="1"></label></div>
+      <label>渲染 DPI<input name="dpi" type="number" min="72" max="400" value="220"></label>
+      <div class="dialog-actions"><button type="submit" id="pdf-location-submit">搜索并截图</button></div>
+      <div id="pdf-location-result" role="status" aria-live="polite"></div>
+    </form>
+    <div class="dialog-actions"><button type="button" id="dialog-close">关闭</button></div>
+  </dialog>
   <script>
-    fetch('/api/status').then(r=>r.json()).then(()=>{document.querySelector('#service-status').textContent='本机服务已连接'}).catch(()=>{document.querySelector('#service-status').textContent='本机服务未连接'});
+    const bluebeamToggle=document.querySelector('#bluebeam-toggle');
+    const backendControl=document.querySelector('#backend-control');
+    const bluebeamState=document.querySelector('#bluebeam-state');
+    const serviceStatus=document.querySelector('#service-status');
+    function showBackend(data){
+      const backend=data.pdf_backend;
+      bluebeamToggle.disabled=!backend.bluebeam_available;
+      bluebeamToggle.checked=backend.mode==='bluebeam';
+      bluebeamState.textContent=bluebeamToggle.checked?'启用':'不启用';
+      backendControl.classList.toggle('unavailable',!backend.bluebeam_available);
+      backendControl.title=backend.bluebeam_available?backend.reason:'未检测到 Bluebeam Script Engine，使用 Python';
+      serviceStatus.textContent=`本机服务已连接 · ${backend.label}`;
+    }
+    fetch('/api/status').then(r=>{if(!r.ok)throw new Error('status unavailable');return r.json()}).then(showBackend).catch(()=>{serviceStatus.textContent='本机服务未连接';bluebeamState.textContent='不可用';bluebeamToggle.disabled=true;backendControl.classList.add('unavailable')});
+    bluebeamToggle.addEventListener('change',async()=>{
+      const requested=bluebeamToggle.checked;
+      bluebeamToggle.disabled=true;
+      bluebeamState.textContent='切换中';
+      try{
+        const response=await fetch('/api/backend',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({bluebeam_enabled:requested})});
+        const data=await response.json();
+        if(!response.ok)throw new Error(data.error||'后端切换失败');
+        showBackend(data);
+      }catch(error){
+        bluebeamToggle.checked=!requested;
+        bluebeamState.textContent=bluebeamToggle.checked?'启用':'不启用';
+        bluebeamToggle.disabled=false;
+        serviceStatus.textContent=error.message;
+      }
+    });
+    const toolDialog=document.querySelector('#tool-dialog');
+    document.querySelectorAll('.card[data-title]').forEach(card=>card.addEventListener('click',()=>{
+      document.querySelector('#dialog-source').textContent=card.dataset.source;
+      document.querySelector('#dialog-title').textContent=card.dataset.title;
+      document.querySelector('#dialog-description').textContent=card.dataset.description;
+      const infoReady=card.dataset.source==='GetPdfInfo';
+      const markerReady=card.dataset.source==='PdfTextMarker';
+      const copyReady=card.dataset.source==='CopyPdfPline';
+      const stampReady=card.dataset.source==='PdfStamp';
+      const frameReady=card.dataset.source==='Frame2Pdf';
+      const ocrReady=card.dataset.source==='PDFPageReplacer / GetPdfText';
+      const locationReady=card.dataset.source==='GetLocInPdf';
+      document.querySelector('#dialog-status').hidden=infoReady||markerReady||copyReady||stampReady||frameReady||ocrReady||locationReady;
+      document.querySelector('#pdf-info-form').hidden=!infoReady;
+      document.querySelector('#pdf-marker-form').hidden=!markerReady;
+      document.querySelector('#copy-markups-form').hidden=!copyReady;
+      document.querySelector('#pdf-stamp-form').hidden=!stampReady;
+      document.querySelector('#frame-to-pdf-form').hidden=!frameReady;
+      document.querySelector('#pdf-ocr-form').hidden=!ocrReady;
+      document.querySelector('#page-count-form').hidden=!ocrReady;
+      document.querySelector('#replace-pages-form').hidden=!ocrReady;
+      document.querySelector('#pdf-location-form').hidden=!locationReady;
+      document.querySelector('#pdf-info-result').textContent='';
+      document.querySelector('#pdf-marker-result').textContent='';
+      document.querySelector('#copy-markups-result').textContent='';
+      document.querySelector('#pdf-stamp-result').textContent='';
+      document.querySelector('#frame-to-pdf-result').textContent='';
+      document.querySelector('#pdf-ocr-result').textContent='';
+      document.querySelector('#page-count-result').textContent='';
+      document.querySelector('#replace-pages-result').textContent='';
+      document.querySelector('#pdf-location-result').textContent='';
+      toolDialog.showModal();
+    }));
+    document.querySelector('#dialog-close').addEventListener('click',()=>toolDialog.close());
+    document.querySelector('#pdf-info-form').addEventListener('submit',async event=>{
+      event.preventDefault();
+      const form=event.currentTarget, button=document.querySelector('#pdf-info-submit');
+      const result=document.querySelector('#pdf-info-result');
+      button.disabled=true; button.textContent='正在提取…'; result.textContent='PDF 在本机分析中，请稍候。';
+      try {
+        const response=await fetch('/api/jobs/pdf-info',{method:'POST',body:new FormData(form)});
+        const data=await response.json();
+        if(!response.ok) throw new Error(data.error||'任务失败');
+        const counts=data.summary.counts;
+        result.replaceChildren();
+        const summary=document.createElement('p');
+        summary.textContent=`完成：${data.summary.page_count} 页，${data.summary.element_count} 条元素（文字 ${counts.text||0}、线条 ${counts.line||0}、矩形 ${counts.rect||0}）。`;
+        result.append(summary);
+        const labels={elements:'下载元素 CSV',spatial:'下载空间关系 CSV',color:'下载颜色分组 CSV'};
+        Object.entries(data.downloads).forEach(([key,url])=>{const link=document.createElement('a');link.href=url;link.textContent=labels[key];link.style.marginRight='16px';result.append(link)});
+      } catch(error) { result.textContent=error.message; }
+      finally { button.disabled=false; button.textContent='提取并生成 CSV'; }
+    });
+    document.querySelector('#pdf-marker-form').addEventListener('submit',async event=>{
+      event.preventDefault();const form=event.currentTarget,button=document.querySelector('#pdf-marker-submit'),result=document.querySelector('#pdf-marker-result');
+      button.disabled=true;button.textContent='正在搜索…';result.textContent='正在分析文字层并生成标注结果。';
+      try{const response=await fetch('/api/jobs/pdf-marker',{method:'POST',body:new FormData(form)}),data=await response.json();if(!response.ok)throw new Error(data.error||'关键词标注准备失败');
+        result.replaceChildren();const summary=document.createElement('p');summary.textContent=`完成：${data.summary.page_count} 页，命中 ${data.summary.match_count} 处。当前后端：${data.summary.backend}。`;result.append(summary);
+        for(const [key,url] of Object.entries(data.summary.downloads)){const a=document.createElement('a');a.href=url;a.textContent=key==='fdf'?(data.summary.backend==='bluebeam'?'下载 Revu 标注 FDF':'下载标注 FDF'):key==='pdf'?'下载标注 PDF':'下载命中坐标 CSV';a.style.display='block';result.append(a)}
+      }catch(error){result.textContent=error.message;}finally{button.disabled=false;button.textContent='搜索并生成标注';}
+    });
+    document.querySelector('#copy-markups-form').addEventListener('submit',async event=>{
+      event.preventDefault();const form=event.currentTarget,button=document.querySelector('#copy-markups-submit'),result=document.querySelector('#copy-markups-result');
+      button.disabled=true;button.textContent='正在配准…';result.textContent='正在分析图纸特征并迁移批注坐标。';
+      try{const response=await fetch('/api/jobs/copy-markups',{method:'POST',body:new FormData(form)}),data=await response.json();if(!response.ok)throw new Error(data.error||'批注迁移失败');
+        result.replaceChildren();const counts=data.summary.counts;const summary=document.createElement('p');summary.textContent=`配准完成：迁移 Polygon ${counts.Polygon}、Polyline ${counts.PolyLine}、MM/RC 标签 ${counts.FreeText}。内点率 ${(data.summary.registration.inlier_ratio*100).toFixed(1)}%，中位残差 ${data.summary.registration.median_residual_pixels.toFixed(2)} px。`;result.append(summary);
+        const link=document.createElement('a');link.href=data.summary.download_url;link.textContent=data.summary.backend==='bluebeam'?'下载 Revu 标注 FDF':'下载 FDF 交换文件';link.style.display='block';result.append(link);
+        if(data.summary.pdf_url){const pdf=document.createElement('a');pdf.href=data.summary.pdf_url;pdf.textContent='下载迁移批注 PDF';pdf.style.display='block';result.append(pdf)}
+      }catch(error){result.textContent=error.message;}finally{button.disabled=false;button.textContent='配准并生成标注';}
+    });
+    document.querySelector('#pdf-stamp-form').addEventListener('submit',async event=>{
+      event.preventDefault();const form=event.currentTarget,button=document.querySelector('#pdf-stamp-submit'),result=document.querySelector('#pdf-stamp-result');
+      button.disabled=true;button.textContent='正在匹配…';result.textContent='正在读取编号映射并生成标注结果。';
+      try{const response=await fetch('/api/jobs/pdf-stamp',{method:'POST',body:new FormData(form)}),data=await response.json();if(!response.ok)throw new Error(data.error||'标注准备失败');
+        result.replaceChildren();const summary=document.createElement('p');summary.textContent=`检查 ${data.summary.pdf_count} 份 PDF，生成 FDF ${data.summary.fdf_count} 份、盖章 PDF ${data.summary.output_pdf_count} 份；未匹配 ${data.summary.unmatched_count}，编号未变化 ${data.summary.unchanged_count}。后端：${data.summary.backend}。`;result.append(summary);
+        for(const [key,url] of Object.entries(data.summary.downloads)){const a=document.createElement('a');a.href=url;a.textContent=key==='zip'?(data.summary.backend==='bluebeam'?'下载 FDF 标注包':'下载盖章 PDF 包'):'下载匹配报告';a.style.display='block';result.append(a)}
+      }catch(error){result.textContent=error.message;}finally{button.disabled=false;button.textContent='生成编号标注';}
+    });
+    document.querySelector('#frame-to-pdf-form').addEventListener('submit',async event=>{
+      event.preventDefault();const form=event.currentTarget,button=document.querySelector('#frame-to-pdf-submit'),result=document.querySelector('#frame-to-pdf-result');
+      button.disabled=true;button.textContent='正在生成…';result.textContent='正在校正图片方向与页面尺寸，然后由当前 PDF 后端合并并输出 PDF。';
+      try{const response=await fetch('/api/jobs/frame-to-pdf',{method:'POST',body:new FormData(form)}),data=await response.json();if(!response.ok)throw new Error(data.error||'图片转 PDF 失败');
+        result.replaceChildren();const summary=document.createElement('p');summary.textContent=`${data.summary.backend} 已生成 ${data.summary.page_count} 页：A3 ${data.summary.a3_pages} 页、A4 ${data.summary.a4_pages} 页。`;result.append(summary);
+        const link=document.createElement('a');link.href=data.summary.download_url;link.textContent='下载 PDF';link.style.display='block';result.append(link);
+      }catch(error){result.textContent=error.message;}finally{button.disabled=false;button.textContent='处理并生成 PDF';}
+    });
+    document.querySelector('#pdf-ocr-form').addEventListener('submit',async event=>{
+      event.preventDefault();
+      const form=event.currentTarget,button=document.querySelector('#pdf-ocr-submit'),result=document.querySelector('#pdf-ocr-result');
+      button.disabled=true;button.textContent='正在识别…';result.textContent='OCR 正在本机运行，请稍候。';
+      try {
+        const response=await fetch('/api/jobs/pdf-ocr',{method:'POST',body:new FormData(form)}),data=await response.json();
+        if(!response.ok)throw new Error(data.error||'OCR 任务失败');
+        result.replaceChildren();
+        const summary=document.createElement('p');
+        summary.textContent=`完成：识别 ${data.summary.page_count} 页；匹配 ${data.summary.matched_values.length} 个唯一编号。${data.summary.filename_value?`文件名编号 ${data.summary.filename_value} ${data.summary.filename_matches_content?'与内容匹配':'未在 OCR 内容中匹配'}`:''}`;
+        result.append(summary);
+        const labels={text:'下载 OCR 文本',json:'下载逐页 JSON',matches:'下载匹配 CSV'};
+        Object.entries(data.downloads).forEach(([key,url])=>{const link=document.createElement('a');link.href=url;link.textContent=labels[key];link.style.marginRight='16px';result.append(link)});
+      } catch(error){result.textContent=error.message;}
+      finally{button.disabled=false;button.textContent='开始 OCR';}
+    });
+    document.querySelector('#page-count-form').addEventListener('submit',async event=>{
+      event.preventDefault();const form=event.currentTarget,button=document.querySelector('#page-count-submit'),result=document.querySelector('#page-count-result');
+      button.disabled=true;button.textContent='正在校核…';result.textContent='正在比较文件名和页数。';
+      try{
+        const response=await fetch('/api/jobs/page-counts',{method:'POST',body:new FormData(form)}),data=await response.json();if(!response.ok)throw new Error(data.error||'校核失败');
+        result.replaceChildren();const summary=document.createElement('p');summary.textContent=`检查 ${data.summary.source_count} 个源文件和 ${data.summary.target_count} 个目标文件；唯一匹配 ${data.summary.matched_count} 个，页数一致 ${data.summary.consistent_count} 个，问题 ${data.summary.issue_count} 个。`;result.append(summary);
+        for(const [key,url] of Object.entries(data.downloads)){const a=document.createElement('a');a.href=url;a.textContent=key==='json'?'下载校核 JSON':'下载校核 CSV';a.style.marginRight='16px';result.append(a)}
+      }catch(error){result.textContent=error.message;}finally{button.disabled=false;button.textContent='校核页数';}
+    });
+    document.querySelector('#replace-pages-form').addEventListener('submit',async event=>{
+      event.preventDefault();const form=event.currentTarget,button=document.querySelector('#replace-pages-submit'),result=document.querySelector('#replace-pages-result');
+      button.disabled=true;button.textContent='正在替换…';result.textContent='正在将内容 PDF 的页面替换到附图 PDF 开头。';
+      try{const response=await fetch('/api/jobs/replace-front-pages',{method:'POST',body:new FormData(form)}),data=await response.json();if(!response.ok)throw new Error(data.error||'页面替换失败');
+        result.replaceChildren();const s=data.summary,p=document.createElement('p');p.textContent=`${s.backend} 已输出 ${s.output_page_count} 页，替换前 ${s.replaced_page_count} 页。`;result.append(p);const a=document.createElement('a');a.href=s.download_url;a.textContent='下载替换后的 PDF';result.append(a);
+      }catch(error){result.textContent=error.message;}finally{button.disabled=false;button.textContent='替换页面';}
+    });
+    document.querySelector('#location-mode').addEventListener('change',event=>{document.querySelector('#location-region').hidden=event.target.value!=='region'});
+    document.querySelector('#pdf-location-form').addEventListener('submit',async event=>{
+      event.preventDefault();const form=event.currentTarget,button=document.querySelector('#pdf-location-submit'),result=document.querySelector('#pdf-location-result');
+      button.disabled=true;button.textContent='正在搜索…';result.textContent='正在搜索关键词并渲染页面。';
+      try{
+        const response=await fetch('/api/jobs/pdf-location',{method:'POST',body:new FormData(form)}),data=await response.json();if(!response.ok)throw new Error(data.error||'截图任务失败');
+        result.replaceChildren();const summary=document.createElement('p');summary.textContent=`完成：生成 ${data.summary.count} 张截图。`;result.append(summary);
+        const manifest=document.createElement('a');manifest.href=data.summary.manifest_url;manifest.textContent='下载截图清单';manifest.style.display='block';result.append(manifest);
+        for(const item of data.summary.screenshots){const wrap=document.createElement('div');wrap.style.margin='12px 0';const label=document.createElement('p');label.textContent=`第 ${item.page_number} 页 · ${item.keyword} · 命中 ${item.match_index}`;const img=document.createElement('img');img.src=item.url;img.alt=label.textContent;img.style.maxWidth='100%';img.style.border='1px solid #ddd';const link=document.createElement('a');link.href=item.url;link.textContent='打开原图';wrap.append(label,img,link);result.append(wrap)}
+      }catch(error){result.textContent=error.message;}finally{button.disabled=false;button.textContent='搜索并截图';}
+    });
   </script>
 </body>
 </html>

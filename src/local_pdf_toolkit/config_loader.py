@@ -6,6 +6,8 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
+from local_pdf_toolkit.modules.pdf_backend import PdfBackend, detect_pdf_backend
+
 
 @dataclass(frozen=True)
 class AppContext:
@@ -13,6 +15,7 @@ class AppContext:
     host: str
     port: int
     log_level: str
+    pdf_backend: PdfBackend
 
 
 def load_context(project_root: Path) -> AppContext:
@@ -21,10 +24,20 @@ def load_context(project_root: Path) -> AppContext:
     _load_common_env(root / "common.env")
     config = _load_yaml(root / "config.yaml")
     app = config.get("app", {}) if isinstance(config, dict) else {}
+    bluebeam = config.get("bluebeam", {}) if isinstance(config, dict) else {}
+    pdf_config = config.get("pdf", {}) if isinstance(config, dict) else {}
     host = os.environ.get("WEB_HOST", str(app.get("host", "127.0.0.1")))
     port = int(os.environ.get("WEB_PORT", app.get("port", 8765)))
     log_level = os.environ.get("LOG_LEVEL", str(app.get("log_level", "INFO")))
-    return AppContext(root, host, port, log_level)
+    backend = detect_pdf_backend(
+        root,
+        requested_mode=os.environ.get("PDF_BACKEND", str(pdf_config.get("backend", "auto"))),
+        script_engine_path=os.environ.get(
+            "BLUEBEAM_SCRIPT_ENGINE_PATH", str(bluebeam.get("script_engine_path", ""))
+        ),
+        revu_path=os.environ.get("BLUEBEAM_REVU_PATH", str(bluebeam.get("executable_path", ""))),
+    )
+    return AppContext(root, host, port, log_level, backend)
 
 
 def _load_common_env(env_file: Path) -> None:

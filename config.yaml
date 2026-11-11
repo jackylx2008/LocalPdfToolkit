@@ -7,6 +7,9 @@ bluebeam:
   executable_path: "${BLUEBEAM_REVU_PATH:-}"
   script_engine_path: "${BLUEBEAM_SCRIPT_ENGINE_PATH:-}"
 
+pdf:
+  backend: auto  # auto, bluebeam, python
+
 paths:
   output_dir: output
   cache_dir: cache

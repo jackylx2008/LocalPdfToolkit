@@ -2,8 +2,8 @@
 
 用途：
   启动 LocalPdfToolkit 的本机 HTML 页面和后台工作流接口，作为所有 PDF
-  处理功能的唯一启动入口。PDF 修改与输出由本机 Bluebeam Revu eXtreme 执行；
-  Python 模块负责网页服务、任务编排，以及允许的读取、搜索、渲染和坐标分析。
+  处理功能的唯一启动入口。启动时自动检测本机 Bluebeam Revu eXtreme；未检测到时
+  选择 Python PDF 包后端。Python 模块负责网页服务、任务编排、PDF 读写及分析。
 
 配置文件：
   根目录 config.yaml 提供服务地址、端口和日志级别；common.env 用于本机路径，
@@ -51,13 +51,19 @@ def main() -> int:
     context = load_context(PROJECT_ROOT)
     setup_logger(context.log_level)
     logger = get_logger(__name__)
+    logger.info("PDF 后端已选择：%s（%s）", context.pdf_backend.label, context.pdf_backend.reason)
     host = args.host or context.host
     port = args.port or context.port
     if not ipaddress.ip_address(host).is_loopback:
         parser.error("本机工作台仅允许绑定 127.0.0.1 或 ::1")
     logger.info("启动本机 PDF 工具工作台: http://%s:%s", host, port)
     try:
-        run_server(host=host, port=port, project_root=PROJECT_ROOT)
+        run_server(
+            host=host,
+            port=port,
+            project_root=PROJECT_ROOT,
+            pdf_backend=context.pdf_backend,
+        )
     except KeyboardInterrupt:
         logger.info("收到关闭请求，工作台已停止")
     except OSError:
